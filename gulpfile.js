@@ -3,6 +3,7 @@ var concat = require('gulp-concat');
 var less = require('gulp-less');
 var nodemon = require('gulp-nodemon');
 var autoprefixer = require('gulp-autoprefixer');
+var babel = require('gulp-babel');
 
 gulp.task('less', function() {
   return gulp.src('./assets/less/*.less')
@@ -14,11 +15,18 @@ gulp.task('less', function() {
 
 gulp.task('start', function() {
   nodemon({
-    script: 'main.js',
+    script: 'dist/main.js',
     ext: 'js html less',
-    tasks: ['less'],
+	 ignore: 'dist/**',
+    tasks: ['less','babel'],
     legacyWatch: true
   });
 });
 
-gulp.task('default', ['start']);
+gulp.task('babel', function() {
+	return gulp.src(['./src/*.js', './src/**/*.js'])
+		.pipe(babel())
+		.pipe(gulp.dest('./dist'));
+});
+
+gulp.task('default', ['babel', 'start']);
