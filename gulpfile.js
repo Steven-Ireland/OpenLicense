@@ -14,7 +14,7 @@ gulp.task('less', function() {
 		.pipe(gulp.dest('./assets/css/'));
 });
 
-gulp.task('start', function(cb) {
+gulp.task('start', ['babel'], function(cb) {
 	var started = false;
 	nodemon({
 		script: 'dist/main.js',
@@ -48,4 +48,4 @@ gulp.task('test', ['start'], function() {
 		});
 })
 
-gulp.task('default', ['babel', 'start']);
+gulp.task('default', ['start']);
