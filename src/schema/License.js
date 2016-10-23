@@ -10,7 +10,7 @@ var licenseSchema = db.Schema({
 		minlength: license_length,
 		maxlength: license_length,
 	},
-	product_public_id: {
+	product_id: {
 		type: String,
 	},
 	expiration_date: {

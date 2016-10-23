@@ -4,23 +4,31 @@ var less = require('gulp-less');
 var nodemon = require('gulp-nodemon');
 var autoprefixer = require('gulp-autoprefixer');
 var babel = require('gulp-babel');
+var mocha = require('gulp-mocha');
 
 gulp.task('less', function() {
-  return gulp.src('./assets/less/*.less')
-      //.pipe(concat('master.css'))
-      .pipe(less())
-      .pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false}))
-      .pipe(gulp.dest('./assets/css/'));
+	return gulp.src('./assets/less/*.less')
+		//.pipe(concat('master.css'))
+		.pipe(less())
+		.pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false}))
+		.pipe(gulp.dest('./assets/css/'));
 });
 
-gulp.task('start', function() {
-  nodemon({
-    script: 'dist/main.js',
-    ext: 'js html less',
-	 ignore: 'dist/**',
-    tasks: ['less','babel'],
-    legacyWatch: true
-  });
+gulp.task('start', function(cb) {
+	var started = false;
+	nodemon({
+		script: 'dist/main.js',
+		ext: 'js html less',
+		ignore: 'dist/**',
+		tasks: ['less','babel'],
+		legacyWatch: true
+ 	})
+	.on('start', function() {
+		if (!started) {
+			started = true;
+			setTimeout(cb, 100);
+		}
+	});
 });
 
 gulp.task('babel', function() {
@@ -28,5 +36,16 @@ gulp.task('babel', function() {
 		.pipe(babel())
 		.pipe(gulp.dest('./dist'));
 });
+
+gulp.task('test', ['start'], function() {
+	return gulp.src('./test/**/*.js')
+		.pipe(mocha({reporter: 'min', require:['mocha-steps']}))
+		.on('end', function() {
+			process.exit();
+		})
+		.on('error', function() {
+			process.exit(1);
+		});
+})
 
 gulp.task('default', ['babel', 'start']);

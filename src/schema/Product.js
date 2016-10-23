@@ -12,7 +12,7 @@ var productSchema = db.Schema({
 		minlength: secret_length,
 		maxlength: secret_length,
 	},
-	public_id: {
+	product_id: {
 		type: String,
 		unique: true,
 		minlength: 3,

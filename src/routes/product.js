@@ -6,12 +6,23 @@ module.exports = function(express, db) {
 
 	router.route('/register')
 		.post(function(req, res) {
-			var product = new Product();
-			product.name="test product";
-			product.generateSecret(() => {
-				product.save();
-				res.end(JSON.stringify({'product_id':product.product_id, 'secret':product.secret}));
-			});
+			var product_id = req.body.product_id;
+			if (product_id) {
+				var product = new Product();
+				product.display_name="test product";
+				product.product_id = product_id;
+				product.generateSecret(() => {
+					product.save((err) => {
+						if (err) {
+							res.end(JSON.stringify({error : 'that product_id is already taken'}));
+						} else {
+							res.end(JSON.stringify({'display_name':product.display_name,'product_id':product.product_id, 'secret':product.secret_hash}));
+						}
+					});
+				});
+			} else {
+				res.end(JSON.stringify({error : 'no supplied product_id'}));
+			}
 		});
 
 

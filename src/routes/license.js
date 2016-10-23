@@ -13,19 +13,24 @@ module.exports = function(express, db) {
 				Product.findOne({'secret_hash': secret}, (err, product) => {
 					if (product) {
 						var newLicense = new License();
-						newLicense.product_public_id = product.public_id;
+						newLicense.product_id = product.product_id;
 						newLicense.generateHash(() => {
-							newLicense.save();
+							newLicense.save((err) => {
+								if (err) {
+									res.end(JSON.stringify({error : 'there was an issue creating a license'}));
+								} else {
+									// TODO: actually bill for stuff
+									return res.end(JSON.stringify({'license':newLicense.license_hash}));
+								}
 
-							// TODO: actually bill for stuff
-							res.end(JSON.stringify({'license':newLicense.license_hash}));
+							});
 						});
 					} else {
-						res.end(JSON.stringify({'error':'bad secret'}));
+						return res.end(JSON.stringify({'error':'bad secret'}));
 					}
 				});
 			} else {
-				res.end("404");
+				res.end(JSON.stringify({error : 'no supplied secret'}));
 			}
 		});
 
@@ -34,7 +39,7 @@ module.exports = function(express, db) {
 			var product_id = req.body.product_id;
 			var license_hash = req.body.license;
 
-			License.findOne({'product_public_id':product_id, 'license_hash':license_hash}, (err, license) => {
+			License.findOne({'product_id':product_id, 'license_hash':license_hash}, (err, license) => {
 				if (license) {
 					res.end("OK");
 				} else {

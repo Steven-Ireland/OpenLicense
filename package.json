@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "dev": "babel-node main.js",
-    "test": "mocha test/ --recursive --require mocha-steps"
+    "test": "gulp & && mocha test/ --recursive --require mocha-steps --reporter min"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +26,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-less": "^3.1.0",
+    "gulp-mocha": "^3.0.1",
     "gulp-nodemon": "^2.1.0",
     "gulp-postcss": "^6.2.0",
     "gulp-sourcemaps": "^1.6.0",
