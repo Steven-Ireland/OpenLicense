@@ -6,7 +6,7 @@ var productSchema = db.Schema({
 	display_name: {
 		type: String,
 	},
-	secret: {
+	secret_hash: {
 		type: String,
 		unique: true,
 		minlength: secret_length,
@@ -17,7 +17,7 @@ var productSchema = db.Schema({
 productSchema.methods.generateSecret = function generateSecret(cb) {
 	var my = this;
 	generate(secret_length, isNewSecret, (secret_hash) => {
-		my.secret = secret_hash;
+		my.secret_hash = secret_hash;
 		cb();
 	});
 };
@@ -27,7 +27,7 @@ var Product = db.model('Product', productSchema);
 module.exports = Product;
 
 function isNewSecret(secret_hash, cb) {
-	Product.findOne({'secret' : secret_hash}, (err, foundProduct) => {
+	Product.findOne({'secret_hash' : secret_hash}, (err, foundProduct) => {
 		if (foundProduct) {
 			cb(false);
 		} else {

@@ -10,11 +10,14 @@ module.exports = function(express, db) {
 		.post(function(req, res) {
 			var secret = req.body.secret;
 			if (secret) {
-				Product.findOne({'secret': secret}, (err, product) => {
+				Product.findOne({'secret_hash': secret}, (err, product) => {
 					if (product) {
 						var newLicense = new License();
+						newLicense.product_secret_hash = product.secret_hash;
 						newLicense.generateHash(() => {
 							newLicense.save();
+
+							// TODO: actually bill for stuff
 							res.end(JSON.stringify({'license':newLicense.license_hash}));
 						});
 					} else {
@@ -26,9 +29,18 @@ module.exports = function(express, db) {
 			}
 		});
 
-	router.route('/status')
+	router.route('/check')
 		.post(function(req, res) {
-			res.end("VALID");
+			var secret_hash = req.body.secret;
+			var license_hash = req.body.license;
+
+			License.findOne({'product_secret_hash':secret_hash, 'license_hash':license_hash}, (err, license) => {
+				if (license) {
+					res.end("OK");
+				} else {
+					res.end("NO");
+				}
+			});
 		});
 
 	return router;

@@ -10,10 +10,13 @@ var licenseSchema = db.Schema({
 		minlength: license_length,
 		maxlength: license_length,
 	},
-	product_id: {
-		type: db.Schema.Types.ObjectId,
-		ref: 'Product',
-	}
+	product_secret_hash: {
+		type: String,
+	},
+	expiration_date: {
+		type: Date,
+		default: new Date(2050,1,1,0,0,0),
+	},
 });
 
 licenseSchema.methods.generateHash = function generateHash(cb) {
