@@ -26,7 +26,7 @@ gulp.task('start', ['babel'], function(cb) {
 	.on('start', function() {
 		if (!started) {
 			started = true;
-			setTimeout(cb, 100);
+			setTimeout(cb, 5000);
 		}
 	});
 });
