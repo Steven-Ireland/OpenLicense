@@ -1,7 +1,7 @@
 var assert = require('assert');
-var Product = require('../../dist/schema/Product');
+var Product = require('../../../dist/schema/Product');
 
-describe('Product', function() {
+describe('Mongoose - Product', function() {
 	describe('#generateSecret', function() {
 		it('should generate a valid unused secret', function() {
 			var product = new Product();

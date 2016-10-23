@@ -13,7 +13,7 @@ module.exports = function(express, db) {
 				Product.findOne({'secret_hash': secret}, (err, product) => {
 					if (product) {
 						var newLicense = new License();
-						newLicense.product_secret_hash = product.secret_hash;
+						newLicense.product_public_id = product.public_id;
 						newLicense.generateHash(() => {
 							newLicense.save();
 
@@ -31,10 +31,10 @@ module.exports = function(express, db) {
 
 	router.route('/check')
 		.post(function(req, res) {
-			var secret_hash = req.body.secret;
+			var product_id = req.body.product_id;
 			var license_hash = req.body.license;
 
-			License.findOne({'product_secret_hash':secret_hash, 'license_hash':license_hash}, (err, license) => {
+			License.findOne({'product_public_id':product_id, 'license_hash':license_hash}, (err, license) => {
 				if (license) {
 					res.end("OK");
 				} else {
