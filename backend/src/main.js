@@ -7,17 +7,24 @@ app.use(bodyParser.urlencoded({extended: true}));
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+app.set('view engine', 'ejs');
+app.set('views', __dirname+'/frontend');
+
 var db = require('mongoose');
 db.connect('mongodb://localhost/test');
 
 app.get('/bower/*', function(req, res) {
-	res.sendFile(__dirname+"/bower_components/"+req.params[0]);
+	res.sendFile(__dirname+"/frontend/bower_components/"+req.params[0]);
 });
 app.get('/js/*', function(req, res) {
-	res.sendFile(__dirname+"/assets/js/"+req.params[0]);
+	res.sendFile(__dirname+"/frontend/js/"+req.params[0]);
 });
 app.get('/css/*', function(req, res) {
-	res.sendFile(__dirname+"/assets/css/"+req.params[0]);
+	res.sendFile(__dirname+"/frontend/css/"+req.params[0]);
+});
+
+app.get('/', function(req, res) {
+	res.render("pages/index");
 });
 
 app.use('/license', require('./routes/license')(express,db));
@@ -28,5 +35,5 @@ var server = app.listen(8080, function() {
 });
 
 process.on('SIGINT', function() {
-	console.log("Shutting down..");
+	console.log("\nShutting down..");
 });

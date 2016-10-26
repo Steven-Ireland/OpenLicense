@@ -13,7 +13,10 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "^3.3.7",
-    "mustache.js": "mustache#^2.2.1"
+    "mustache.js": "mustache#^2.2.1",
+    "semantic": "semantic-ui#^2.2.4",
+    "granim": "^1.0.31",
+    "milligram": "^1.1.0",
+    "bootstrap": "v4.0.0-alpha.5"
   }
 }

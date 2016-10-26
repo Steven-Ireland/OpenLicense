@@ -19,7 +19,7 @@ module.exports = function(express, db) {
 								if (err) {
 									res.end(JSON.stringify({error : 'there was an issue creating a license'}));
 								} else {
-									// TODO: actually bill for stuff
+									// if I was a businessman, I would bill here.
 									return res.end(JSON.stringify({'license':newLicense.license_hash}));
 								}
 
