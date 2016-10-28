@@ -17,6 +17,10 @@ var licenseSchema = db.Schema({
 		type: Date,
 		default: new Date(2050,1,1,0,0,0),
 	},
+	created_date: {
+		type: Date,
+		default: new Date(),
+	},
 });
 
 licenseSchema.methods.generateHash = function generateHash(cb) {

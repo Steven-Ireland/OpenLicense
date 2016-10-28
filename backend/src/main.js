@@ -24,11 +24,15 @@ app.get('/css/*', function(req, res) {
 });
 
 app.get('/', function(req, res) {
-	res.render("pages/index");
+	res.redirect('/portal');
 });
 
+app.use('/portal', require('./routes/portal')(express, db));
+app.use('/reporting', require('./routes/reporting')(express, db));
 app.use('/license', require('./routes/license')(express,db));
 app.use('/product', require('./routes/product')(express,db));
+
+app.locals = require('./locals');
 
 var server = app.listen(8080, function() {
     console.log('Express is listening to http://localhost:8080');

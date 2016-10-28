@@ -17,6 +17,7 @@
     "semantic": "semantic-ui#^2.2.4",
     "granim": "^1.0.31",
     "milligram": "^1.1.0",
-    "bootstrap": "v4.0.0-alpha.5"
+    "bootstrap": "v4.0.0-alpha.5",
+    "bulma": "^0.2.3"
   }
 }

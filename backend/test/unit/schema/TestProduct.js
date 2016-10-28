@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Product = require('../../../dist/schema/Product');
+var Product = require('../../../../_dist/schema/Product');
 
 describe('Mongoose - Product', function() {
 	describe('#generateSecret', function() {

@@ -21,7 +21,7 @@ gulp.task('less', function() {
 gulp.task('start', ['deploy'], function() {
 	nodemon({
 		script: '_dist/main.js',
-		ext: 'js html less',
+		ext: 'js ejs less',
 		ignore: '_dist/**',
 		tasks: ['deploy'],
 		legacyWatch: true
@@ -51,7 +51,7 @@ gulp.task('wait', function(cb) {
 });
 
 gulp.task('test', ['start', 'wait'], function() {
-	return gulp.src('./test/**/*.js')
+	return gulp.src('./backend/test/**/*.js')
 		.pipe(mocha({reporter: 'min', require:['mocha-steps']}))
 		.on('end', function() {
 			process.exit();

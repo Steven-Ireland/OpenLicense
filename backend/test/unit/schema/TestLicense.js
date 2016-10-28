@@ -1,5 +1,5 @@
 var assert = require('assert');
-var License = require('../../../dist/schema/License');
+var License = require('../../../../_dist/schema/License');
 
 describe('Mongoose - License', function() {
 	describe('#generateHash', function() {

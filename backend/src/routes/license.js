@@ -5,7 +5,6 @@ var License = require('../schema/License');
 module.exports = function(express, db) {
 	var router = express.Router();
 
-
 	router.route('/register')
 		.post(function(req, res) {
 			var secret = req.body.secret;

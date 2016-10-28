@@ -3,20 +3,18 @@
 	<head>
 		<meta charset="utf-8">
 		<title>OpenLicense</title>
+		<% include i/bulma %>
 
-		<link rel="stylesheet" href="/css/index.css" type="text/css">
-		<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css" type="text/css">
-
-		<script type="text/javascript" href="/bower/bootstrap/dist/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="/css/index.css" type="text/css"/>
 		<script type="text/javascript" href="/js/index.js"></script>
 	</head>
 	<body>
-		<header id="intro", class="header">
-			
-			<section class="container">
-				<h1 class="title">OpenLicense</h1>
-				<p class="description">awful right now</p>
-			</section>
-		</header>
+		<div class="container">
+			<%- include('partials/nav'); %>
+
+			<%- include('partials/header',{page: 'Overview'}); %>
+
+			<%- include('partials/overview') %>
+		</div>
 	</body>
 </html>
