@@ -1,5 +1,12 @@
 var express = require('express');
+var session = require('express-session');
 var app = express();
+
+app.use(session({
+	secret: 'no idea what a secret is for',
+	resave: false,
+	saveUninitialized: false,
+}));
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
