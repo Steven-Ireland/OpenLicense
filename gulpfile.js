@@ -36,6 +36,9 @@ gulp.task('deploy', ['clean', 'babel', 'less'], function() {
 	gulp.src(['./frontend/pages/**/*'])
 		.pipe(gulp.dest('./_dist/frontend/pages'));
 
+	gulp.src(['./frontend/js/*'])
+		.pipe(gulp.dest('./_dist/frontend/js'));
+
 	gulp.src(['./bower_components/**/*'])
 			.pipe(gulp.dest('./_dist/frontend/bower_components'));
 });

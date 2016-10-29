@@ -31,6 +31,7 @@ app.use('/portal', require('./routes/portal')(express, db));
 app.use('/reporting', require('./routes/reporting')(express, db));
 app.use('/license', require('./routes/license')(express,db));
 app.use('/product', require('./routes/product')(express,db));
+app.use('/user', require('./routes/user')(express,db));
 
 app.locals = require('./locals');
 

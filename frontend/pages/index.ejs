@@ -4,17 +4,28 @@
 		<meta charset="utf-8">
 		<title>OpenLicense</title>
 		<% include i/bulma %>
+		<% include i/jquery %>
+		<% include i/sendy %>
+		<% include i/fa %>
 
 		<link rel="stylesheet" href="/css/index.css" type="text/css"/>
-		<script type="text/javascript" href="/js/index.js"></script>
+		<script type="text/javascript" src="/js/index.js"></script>
 	</head>
 	<body>
-		<div class="container">
-			<%- include('partials/nav'); %>
 
-			<%- include('partials/header',{page: 'Overview'}); %>
+		<%- include('partials/nav'); %>
 
-			<%- include('partials/overview') %>
+		<div class="columns body">
+			<div class="column is-2">
+				<div class="container">
+					<%- include('partials/menu') %>
+				</div>
+			</div>
+			<div class="column is-8-desktop is-9-tablet is-9-mobile">
+				<%- include('partials/header',{page: 'Overview'}); %>
+
+				<%- include('partials/overview') %>
+			</div>
 		</div>
 	</body>
 </html>
