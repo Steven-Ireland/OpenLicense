@@ -9,5 +9,10 @@ module.exports = function(express, db) {
 			res.render("pages/overview");
 		});
 
+	router.route('/product/register')
+		.get(function(req, res) {
+			res.render("pages/newproduct");
+		});
+
 	return router;
 };

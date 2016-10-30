@@ -20,7 +20,7 @@ module.exports = function(express, db) {
 								newLicense.generateHash(() => {
 									newLicense.save((err) => {
 										if (err) {
-											res.end(JSON.stringify({error : 'there was an issue creating a license'}));
+											res.end(JSON.stringify({'error' : 'there was an issue creating a license'}));
 										} else {
 											// if I were a businessman, I would bill here.
 											return res.end(JSON.stringify({'license':newLicense.license_hash}));
