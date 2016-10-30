@@ -15,13 +15,15 @@ module.exports = function(express, db) {
 				user.email = email;
 
 				user.generatePassword(password, () => {
-					user.save((err) => {
-						if (err) {
-							res.end(JSON.stringify({error: "There was an error creating this user"}));
-						} else {
-							res.end(JSON.stringify({email:email}));
-						}
-					});
+					user.generateApiKey(() => {
+						user.save((err) => {
+							if (err) {
+								res.end(JSON.stringify({error: "There was an error creating this user"}));
+							} else {
+								res.end(JSON.stringify({api_key: user.api_key}));
+							}
+						});
+					})
 				});
 			} else {
 				res.end(JSON.stringify({error: "Invalid params"}));

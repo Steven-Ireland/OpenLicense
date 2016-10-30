@@ -15,7 +15,7 @@ describe('License Flow', function() {
 	var product_display_name = 'newproductid';
 	var product_owner = 'steve123';
 	var password = 'test123';
-	var product_secret;
+	var api_key;
 	var license_hash;
 
 	step('allows creation of a user', function(done) {
@@ -25,30 +25,33 @@ describe('License Flow', function() {
 				assert.ifError(err);
 
 				var result = JSON.parse(res.text);
-				assert(result.email);
-				assert(result.email === product_owner);
+				assert(result.api_key);
+
+				api_key = result.api_key;
+
 				done();
 			});
 	});
 	step('allows creation of a product', function(done) {
 		superagent.post("http://localhost:8080/product/register")
-			.send({'product_id':product_id, 'display_name': product_display_name, 'owner':product_owner})
+			.send({'product_id':product_id, 'display_name': product_display_name, 'api_key':api_key})
 			.end(function(err, res) {
 				assert.ifError(err);
 
 				var result = JSON.parse(res.text);
 
 				assert(result.product_id);
-				assert(result.secret);
+				assert(result.display_name);
 
 				assert(result.product_id === product_id);
-				product_secret = result.secret;
+				assert(result.display_name === product_display_name);
+
 				done();
 			});
 	});
-	step('allows registration of a license with the secret', function(done) {
+	step('allows registration of a license with the product_id and api_key', function(done) {
 		superagent.post("http://localhost:8080/license/register")
-			.send({'secret':product_secret})
+			.send({'api_key':api_key, 'product_id':product_id})
 			.end(function(err, res) {
 				assert.ifError(err);
 
@@ -70,19 +73,19 @@ describe('License Flow', function() {
 });
 
 describe('License Flow - Negative', function() {
-	var bad_secret = 'foo';
+	var bad_api_key = 'foo';
 	var bad_license = 'bar';
 	var bad_product_id = 'no mans sky'
 
-	it('disallows registration of a license with an incorrect secret', function(done) {
+	it('disallows registration of a license with invalid keys', function(done) {
 		superagent.post("http://localhost:8080/license/register")
-			.send({'secret':bad_secret})
+			.send({'api_key':bad_api_key, 'product_id':bad_product_id})
 			.end(function(err, res) {
 				assert.ifError(err);
 
 				var result = JSON.parse(res.text);
 				assert(result.error);
-				assert(result.error === 'bad secret');
+				assert(result.error === 'No user found with that api key');
 				done();
 			});
 	});
@@ -94,7 +97,8 @@ describe('License Flow - Negative', function() {
 
 				var result = JSON.parse(res.text);
 				assert(result.error);
-				assert(result.error === 'no supplied secret');
+				console.log(result.error);
+				assert(result.error === 'Invalid params');
 				done();
 			});
 	});

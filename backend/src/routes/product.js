@@ -9,30 +9,28 @@ module.exports = function(express, db) {
 		.post(function(req, res) {
 			var product_id = req.body.product_id;
 			var display_name = req.body.display_name;
-			var owner = req.body.owner;
+			var api_key = req.body.api_key;
 
-			if (product_id && display_name && owner) {
+			if (product_id && display_name && api_key) {
 				var product = new Product();
 
-				User.findOne({email: owner}, (err, user) => {
+				User.findOne({api_key: api_key}, (err, user) => {
 					if (err) {
-						res.end(JSON.stringify({error: 'error encountered while querying owner'}));
+						res.end(JSON.stringify({error: 'error encountered while querying api key'}));
 					} else {
 						if (user) {
 							product.product_id = product_id;
 							product.display_name = display_name;
-							product.owner = owner;
-							product.generateSecret(() => {
-								product.save((err) => {
-									if (err) {
-										res.end(JSON.stringify({error : 'that product_id is already taken'}));
-									} else {
-										res.end(JSON.stringify({'display_name':product.display_name,'product_id':product.product_id, 'secret':product.secret_hash}));
-									}
-								});
+							product.owner = user.email;
+							product.save((err) => {
+								if (err) {
+									res.end(JSON.stringify({error : 'that product_id is already taken'}));
+								} else {
+									res.end(JSON.stringify({'display_name':product.display_name,'product_id':product.product_id}));
+								}
 							});
 						} else {
-							res.end(JSON.stringify({error: 'owner not found'}));
+							res.end(JSON.stringify({error: 'api key not found'}));
 						}
 					}
 				});
