@@ -14,6 +14,14 @@ $(document).ready(function() {
 				}).done(function(data) {
 					sendyLoaded(el, data);
 				});
+				break;
+			case "UL":
+			case "OL":
+			$.ajax({
+				url: el.attr('data-get')
+			}).done(function(data) {
+				sendyLoadedList(el, data);
+			});
 		}
 	});
 });
@@ -26,4 +34,15 @@ function sendyPrepare(el) {
 function sendyLoaded(el, data) {
 	el.removeClass('sendy-loading');
 	el.html(data.value);
+}
+
+function sendyLoadedList(el, data) {
+	el.removeClass('sendy-loading');
+	el.html("");
+
+	var template = el.attr('data-tmpl');
+	$.each(data.value, function(i, d) {
+		var rendered = Mustache.render($(template).html(), d);
+		el.prepend($(rendered));
+	})
 }

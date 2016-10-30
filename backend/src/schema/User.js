@@ -12,9 +12,6 @@ var userSchema = db.Schema({
 	salt_hash: {
 		type: String,
 	},
-	product_ids: [{
-		type: String,
-	}],
 });
 
 userSchema.methods.generatePassword = function(plain_password, cb) {

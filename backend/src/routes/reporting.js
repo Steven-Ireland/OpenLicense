@@ -11,10 +11,16 @@ module.exports = function(express, db) {
 			var today = new Date();
 			var yesterday = new Date();
 			yesterday.setDate(today.getDate() - 1);
-			console.log(yesterday);
 			License.count({created_date: {$gte: yesterday}}, (err, num) => {
-				console.log(num);
 				sendy(res, num);
+			});
+		});
+
+	router.route('/product/list')
+		.get(function(req, res) {
+			var user = req.session.user;
+			Product.find({owner: user.email}, 'display_name product_id', (err, products) => {
+				sendy(res, products);
 			});
 		});
 

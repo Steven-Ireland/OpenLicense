@@ -17,6 +17,9 @@ var productSchema = db.Schema({
 		unique: true,
 		minlength: 3,
 	},
+	owner: {
+		type: String,
+	},
 });
 
 productSchema.methods.generateSecret = function generateSecret(cb) {

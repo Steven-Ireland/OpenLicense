@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>OpenLicense</title>
+		<% include i/bulma %>
+		<% include i/jquery %>
+		<% include i/sendy %>
+		<% include i/fa %>
+
+		<% include i/master %>
+
+		<script type="text/javascript" src="/js/login.js"></script>
+	</head>
+	<body>
+
+		<%- include('partials/nav'); %>
+
+		<div class="columns body">
+			<div class="column is-8 is-offset-2">
+				<%- include('partials/header',{page: 'Login'}); %>
+
+				<form method="POST">
+					<p class="control">
+						<input class="input" type="text" name="email" placeholder="email@address.com">
+					</p>
+					<p class="control">
+						<input class="input" type="password" name="password" placeholder="password123">
+					</p>
+				</form>
+			</div>
+		</div>
+
+		<%- include('partials/footer'); %>
+	</body>
+</html>

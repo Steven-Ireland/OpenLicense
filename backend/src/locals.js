@@ -1,3 +1,4 @@
 module.exports = {
-	brand: "License"
+	brand: "License",
+	github: "OpenLicense",
 }

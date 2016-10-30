@@ -12,15 +12,32 @@ describe('License Flow', function() {
 	});
 
 	var product_id = 'newProductId';
+	var product_display_name = 'newproductid';
+	var product_owner = 'steve123';
+	var password = 'test123';
 	var product_secret;
 	var license_hash;
-	step('allows creation of a product', function(done) {
-		superagent.post("http://localhost:8080/product/register")
-			.send({'product_id':product_id})
+
+	step('allows creation of a user', function(done) {
+		superagent.post("http://localhost:8080/user/register")
+			.send({'email':product_owner, 'password': password})
 			.end(function(err, res) {
 				assert.ifError(err);
 
 				var result = JSON.parse(res.text);
+				assert(result.email);
+				assert(result.email === product_owner);
+				done();
+			});
+	});
+	step('allows creation of a product', function(done) {
+		superagent.post("http://localhost:8080/product/register")
+			.send({'product_id':product_id, 'display_name': product_display_name, 'owner':product_owner})
+			.end(function(err, res) {
+				assert.ifError(err);
+
+				var result = JSON.parse(res.text);
+
 				assert(result.product_id);
 				assert(result.secret);
 

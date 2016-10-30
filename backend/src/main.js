@@ -1,11 +1,13 @@
 var express = require('express');
 var session = require('express-session');
 var app = express();
+var MongoStore = require('connect-mongo')(session);
 
 app.use(session({
 	secret: 'no idea what a secret is for',
 	resave: false,
 	saveUninitialized: false,
+	store: new MongoStore({url: 'mongodb://localhost/test'}),
 }));
 
 var bodyParser = require('body-parser');
@@ -34,11 +36,20 @@ app.get('/', function(req, res) {
 	res.redirect('/portal');
 });
 
-app.use('/portal', require('./routes/portal')(express, db));
-app.use('/reporting', require('./routes/reporting')(express, db));
 app.use('/license', require('./routes/license')(express,db));
 app.use('/product', require('./routes/product')(express,db));
 app.use('/user', require('./routes/user')(express,db));
+
+app.all('*', function(req, res, next) {
+	if (req.session.user) {
+		next();
+	} else {
+		res.redirect('/user/login');
+	}
+});
+
+app.use('/reporting', require('./routes/reporting')(express, db));
+app.use('/portal', require('./routes/portal')(express, db));
 
 app.locals = require('./locals');
 

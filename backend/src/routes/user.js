@@ -4,7 +4,7 @@ var User = require('../schema/User');
 module.exports = function(express, db) {
 	var router = express.Router();
 
-	router.route('/signup')
+	router.route('/register')
 		.post(function(req, res) {
 			var user = new User();
 
@@ -13,10 +13,8 @@ module.exports = function(express, db) {
 
 			if (email && password) {
 				user.email = email;
-				console.log(user);
 
 				user.generatePassword(password, () => {
-					console.log(user);
 					user.save((err) => {
 						if (err) {
 							res.end(JSON.stringify({error: "There was an error creating this user"}));
@@ -31,6 +29,9 @@ module.exports = function(express, db) {
 		});
 
 	router.route('/login')
+		.get(function(req, res) {
+			res.render('pages/login');
+		})
 		.post(function(req, res) {
 			if (!req.session.user) {
 				var email = req.body.email;
@@ -40,7 +41,7 @@ module.exports = function(express, db) {
 					User.getUser(email, password, (user) => {
 						if (user) {
 							req.session.user = user;
-							res.end(JSON.stringify({user: email}));
+							res.redirect('/portal');
 						} else {
 							res.end(JSON.stringify({error: 'No user for those credentials found'}));
 						}
