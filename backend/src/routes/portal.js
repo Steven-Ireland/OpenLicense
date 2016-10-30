@@ -6,7 +6,7 @@ module.exports = function(express, db) {
 
 	router.route('/')
 		.get(function(req, res) {
-			res.render("pages/index");
+			res.render("pages/overview");
 		});
 
 	return router;

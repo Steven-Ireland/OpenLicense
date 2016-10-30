@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$('[data-get]').each(function() {
 		var el = $(this);
-		sendyPrepare(el);
+		var oldHtml = sendyPrepare(el);
 
 		var tagName = el.prop('tagName');
 		console.log(tagName);
@@ -20,7 +20,7 @@ $(document).ready(function() {
 			$.ajax({
 				url: el.attr('data-get')
 			}).done(function(data) {
-				sendyLoadedList(el, data);
+				sendyLoadedList(el, data, oldHtml);
 			});
 		}
 	});
@@ -28,7 +28,9 @@ $(document).ready(function() {
 
 function sendyPrepare(el) {
 	el.addClass('sendy-loading');
+	var oldHtml = el.html();
 	el.html("<i class=\"fa fa-refresh fa-spin sendy-loading-icon\"></i>");
+	return oldHtml;
 }
 
 function sendyLoaded(el, data) {
@@ -36,7 +38,7 @@ function sendyLoaded(el, data) {
 	el.html(data.value);
 }
 
-function sendyLoadedList(el, data) {
+function sendyLoadedList(el, data, old) {
 	el.removeClass('sendy-loading');
 	el.html("");
 
@@ -44,5 +46,6 @@ function sendyLoadedList(el, data) {
 	$.each(data.value, function(i, d) {
 		var rendered = Mustache.render($(template).html(), d);
 		el.prepend($(rendered));
-	})
+	});
+	el.append($(old));
 }
