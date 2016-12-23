@@ -1,3 +1,3 @@
-[![Build Status](https://travis-ci.com/Steven-Ireland/LicenseGuru.svg?token=a9maMm3ysM2aBrhWG4xk&branch=master)](https://travis-ci.com/Steven-Ireland/LicenseGuru)
+This is a licensing server with a 1/20th baked front end. If you want to use it, go ahead! Fork it! Do whatever!
 
-Lincensing server :)
+The actual licensing api is solid with associated mocha tests. The frontend to manage it is organized well but needs more work. Have fun :)
